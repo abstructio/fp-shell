@@ -1,0 +1,48 @@
+{{define "index"}}
+<!DOCTYPE>
+<html>
+	<head>
+		<title>{{.Title}}</title>
+		<link rel="stylesheet" href="s/style.css">
+	</head>
+	<body>
+		<div id="show"></div>
+		<script type="application/javascript">
+			var showdiv = document.getElementById("show");
+
+			var json = {{.pres}};
+			
+		/*	var pres = JSON.parse({{.pres}});
+
+			var section, h1;
+
+			for(var i = 0; i < pres.Slides.length; i++){
+				var slide = pres.Slides[i];
+				var section = document.createElement("section");
+				var h1 = document.createElement("h1");
+				h1.innerHTML = slide.Title;
+				section.appendChild(h1);
+				section.innerHTML +=slide.Content;
+
+				if(slide.Sclass.length != 0){
+					section.setAttribute("sclass",slide.Sclass.join(","));
+				}
+				for(var j = 0; j < slide.Class.length; j++){
+					console.log(slide.Class[j]);
+					section.classList.add(slide.Class[j]);
+				}
+				showdiv.appendChild(section);
+			}
+*/
+		</script>
+		<script type="application/javascript" src="j/bootstrapper.js"></script>
+		<script type="application/javascript" src="j/show.js"></script>
+	</body>
+</html>
+{{end}}
+{{define "login"}}
+<form method="post" action="/">
+	<input name="code" type="text" placeholder="code" />
+	<input type="Submit" />
+</form>
+{{end}}
