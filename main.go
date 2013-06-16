@@ -1,8 +1,10 @@
 package main
 
 import (
+	"code.google.com/p/go.net/websocket"
 	"flag"
 	"fmt"
+	"fp-shell/socket"
 	"fp-shell/web"
 	"log"
 	"net"
@@ -37,8 +39,19 @@ func main() {
 
 	http.Handle("/", pres)
 
+	ctrl, err := web.NewControllerHandle(os.Args[1])
+
+	if err != nil {
+		log.Println(err)
+	}
+	http.Handle("/ctrl", ctrl)
+
 	http.HandleFunc("/j/", web.StaticFileHandler("static/"))
 	http.HandleFunc("/s/", web.StaticFileHandler("static/"))
+
+	server := socket.NewServer()
+
+	http.Handle("/ws", websocket.Handler(server.WebsocketHandler))
 
 	displayInfo()
 

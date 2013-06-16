@@ -37,6 +37,16 @@
 		</script>
 		<script type="application/javascript" src="j/bootstrapper.js"></script>
 		<script type="application/javascript" src="j/show.js"></script>
+        <script type="application/javascript">
+            var ws = new WebSocket("{{.url}}");
+            
+            ws.onmessage = function(event){
+                var cmd = JSON.parse(event.data);
+                if(cmd.Id === 1){
+                    slide.jump(parseInt(cmd.Value));
+                }
+            };
+        </script>
 	</body>
 </html>
 {{end}}

@@ -1,8 +1,12 @@
 package web
 
 import (
+	"fmt"
 	"io/ioutil"
+	"log"
+	"net"
 	"net/http"
+	"os"
 )
 
 func NewPresHandle(path string) (*PresHandle, error) {
@@ -63,6 +67,19 @@ func (pres *PresHandle) getPresHandle(w http.ResponseWriter, r *http.Request) {
 	values := make(map[string]interface{})
 
 	values["pres"] = pres.presentation
+
+	name, err := os.Hostname()
+
+	if err != nil {
+		log.Println(err)
+	}
+
+	addrs, err := net.LookupHost(name)
+	if err != nil {
+		log.Println(err)
+	}
+
+	values["url"] = fmt.Sprint("ws://", addrs[0], ":8080/ws")
 
 	templates.ExecuteTemplate(w, "index", values)
 	return
