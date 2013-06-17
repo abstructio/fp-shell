@@ -33,7 +33,7 @@
     
     <body>
         <div data-role="page">
-            <div data-role="panel" id="mypanel" data-position="left" data-display="overlay">
+            <div data-role="panel" id="mypanel" data-position="left" data-display="push">
                 <ul data-role="listview" id="slides">
                 
                 </ul>
@@ -44,17 +44,18 @@
             </div>
             <!-- /header -->
             <div data-role="content">
-                <p>Page content goes here.</p>
+                <p id="note">Page</p>
             </div>
         </div>
         <!-- page -->
-        <p>{{.pres}}</p>
         <script type="application/javascript">
             var pres = JSON.parse("{{.pres}}")
             
             var ul = document.getElementById("slides");
             
             var slides = pres.Slides;
+
+	    var note = document.getElementById("note");
             
             var slide;
             var li, a;
@@ -69,6 +70,8 @@
             
             var clicker = function(event){
                 ws.send(JSON.stringify({"Id":1, "Value":this.attributes["i"].value}));
+		var i = this.attributes["i"].value;
+		note.innerHTML = slides[i].Notes;
                 //event.preventDefault();
             }
             
