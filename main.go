@@ -74,9 +74,8 @@ func displayInfo() {
 
 	addrs, err := net.LookupHost(name)
 	if err != nil {
-		log.Println(err)
+	    fmt.Printf("IP-Host: localhost\n")
 		return
 	}
-
 	fmt.Printf("IP-Host: %s\n", addrs[0])
 }

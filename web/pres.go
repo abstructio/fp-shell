@@ -68,18 +68,21 @@ func (pres *PresHandle) getPresHandle(w http.ResponseWriter, r *http.Request) {
 
 	values["pres"] = pres.presentation
 
-	name, err := os.Hostname()
+	name, _ := os.Hostname()
 
-	if err != nil {
-		log.Println(err)
-	}
-
+    var addr string
 	addrs, err := net.LookupHost(name)
-	if err != nil {
-		log.Println(err)
-	}
 
-	values["url"] = fmt.Sprint("ws://", addrs[0], ":8080/ws")
+
+	if err != nil {
+        addr = "localhost"
+		log.Println(err)
+	}else{
+        addr = addrs[0]
+    }
+    
+
+	values["url"] = fmt.Sprint("ws://", addr, ":8080/ws")
 
 	templates.ExecuteTemplate(w, "index", values)
 	return
