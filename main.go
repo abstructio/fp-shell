@@ -36,6 +36,11 @@ func main() {
 
 	var pres *web.PresHandle = nil
 
+	if len(os.Args) == 1 {
+		log.Println("Kein File spezifiziert")
+		return
+	}
+
 	if strings.HasSuffix(os.Args[1], ".fp") {
 
 		raw, err := ioutil.ReadFile(os.Args[1])
