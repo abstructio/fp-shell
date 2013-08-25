@@ -68,8 +68,10 @@ func main() {
 	}
 	http.Handle("/ctrl", ctrl)
 
-	http.HandleFunc("/j/", web.StaticFileHandler("static/"))
-	http.HandleFunc("/s/", web.StaticFileHandler("static/"))
+	rootpath := os.Getenv("FPROOT")
+
+	http.HandleFunc("/j/", web.StaticFileHandler(fmt.Sprint(rootpath, "/static/")))
+	http.HandleFunc("/s/", web.StaticFileHandler(fmt.Sprint(rootpath, "/static/")))
 
 	server := socket.NewServer()
 
