@@ -4,12 +4,15 @@ import (
 	"code.google.com/p/go.net/websocket"
 	"flag"
 	"fmt"
+	"fp-shell/parse"
 	"fp-shell/socket"
 	"fp-shell/web"
+	"io/ioutil"
 	"log"
 	"net"
 	"net/http"
 	"os"
+	"strings"
 )
 
 type Presentation struct {
@@ -31,10 +34,29 @@ type Slide struct {
 func main() {
 	flag.Parse()
 
-	pres, err := web.NewPresHandle(os.Args[1])
+	var pres *web.PresHandle = nil
 
-	if err != nil {
-		log.Println(err)
+	if strings.HasSuffix(os.Args[1], ".fp") {
+
+		raw, err := ioutil.ReadFile(os.Args[1])
+
+		if err != nil {
+			panic(err)
+			return
+		}
+
+		json := parse.NewJSONOutput(raw)
+
+		pres = web.NewJSONPresHandle(json)
+
+	} else {
+
+		var err error
+		pres, err = web.NewPresHandle(os.Args[1])
+
+		if err != nil {
+			log.Println(err)
+		}
 	}
 
 	http.Handle("/", pres)

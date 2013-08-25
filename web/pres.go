@@ -9,6 +9,12 @@ import (
 	"os"
 )
 
+func NewJSONPresHandle(raw []byte) *PresHandle {
+	return &PresHandle{
+		presentation: string(raw),
+	}
+}
+
 func NewPresHandle(path string) (*PresHandle, error) {
 	raw, err := ioutil.ReadFile(path)
 
